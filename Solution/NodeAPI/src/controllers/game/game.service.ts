@@ -4,8 +4,5 @@ import { GameModel } from "shared";
 @Injectable()
 export class GameService
 {
-    public findOpen(): void
-    {
-        
-    }
+    
 }
