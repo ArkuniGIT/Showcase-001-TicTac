@@ -1,3 +1,4 @@
+import Board from 'components/board/Board';
 import React, { FC } from 'react';
 import { GameModel } from 'shared';
 
@@ -9,9 +10,7 @@ export interface GameProps
 const Game: FC<GameProps> = () =>
 {
     return (
-        <div>
-            Game
-        </div>
+        <Board />
     );
 }
 

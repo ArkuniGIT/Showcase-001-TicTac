@@ -1,16 +1,29 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
+import { MatchModel } from 'shared';
 import MatchList from '../matchList/MatchList';
+import { Button, Card, CardContent  } from '@material-ui/core';
+
 
 const MatchPage: FC = () =>
 {
-    const matches: any[] = [];
+    const matches: MatchModel[] = [
+        {
+            id: "Match-ID",
+            gameId: "Game-ID"
+        }
+    ];
 
     return (
-        <div>
-            <MatchList 
+        <Card>
+            <CardContent>
+                <Button variant="contained" color="primary">
+                    Create game
+                </Button>
+            </CardContent>
+            <MatchList
                 matches={matches}
             />
-        </div>
+        </Card>
     );
 }
 

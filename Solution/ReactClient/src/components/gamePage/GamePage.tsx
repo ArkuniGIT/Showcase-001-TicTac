@@ -1,11 +1,16 @@
 import React, { FC } from 'react';
-import { GameModel } from 'Shared';
+import { GameModel, GameState } from 'shared';
 import Game from 'components/game/Game';
 
 const GamePage: FC = () =>
 {
     const model: GameModel = {
-        id: ""
+        id: "Game-ID",
+        matchId: "Match-ID",
+        state: GameState.Playing,
+        board: new Array(9).fill(-1),
+        userTurn: 0,
+        users: ["userA", "userB"]
     }
 
     return (

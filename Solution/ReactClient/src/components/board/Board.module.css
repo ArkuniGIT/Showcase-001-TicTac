@@ -1,0 +1,19 @@
+.board {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    width: 192px;
+    height: 192px;
+}
+
+.board>div {
+    flex-grow: 0;
+    width: 64px;
+    height: 64px;
+    box-sizing: border-box;
+    background-color: #ccc;
+}
+
+.board>div:nth-child(2n) {
+    background-color: #ddd;
+}

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { MatchModel } from "shared";
+import styles from "./MatchItem.module.css";
 
 export interface MatchItemProps 
 {
@@ -11,7 +12,7 @@ const MatchItem: FC<MatchItemProps> = (props) =>
     const { model } = props;
 
     return (
-        <div>
+        <div className={styles.matchItem}>
             {model.id}
         </div>
     );
