@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TestRequest } from "SharedLibrary";
+import { GameModel } from "shared";
 
 @Injectable()
 export class GameService

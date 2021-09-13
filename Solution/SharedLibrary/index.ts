@@ -1,1 +1,2 @@
-export * from "./dto/testRequest";
+export * from "./models/GameModel";
+export * from "./models/MatchModel";
