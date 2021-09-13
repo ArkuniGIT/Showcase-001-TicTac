@@ -5,10 +5,13 @@ import { PublicConfiguration } from 'swr/dist/types';
 import Layout from 'components/layout/Layout';
 import Routes from 'components/routes/Routes';
 import { BrowserRouter } from "react-router-dom";
+import axios from 'axios';
+
+axios.defaults.baseURL = process.env.REACT_APP_PUBLIC_API_ENDPOINT;
 
 const swrConfigValue: Partial<PublicConfiguration> =
 {
-    fetcher: (...args: Parameters<typeof fetch>) => fetch(...args).then(response => response.json())
+    fetcher: (url: string) => axios.get(url).then(r => r.data),
 }
 
 const theme = createTheme();

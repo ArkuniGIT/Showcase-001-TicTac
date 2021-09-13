@@ -1,17 +1,12 @@
 import { FC } from 'react';
 import { MatchModel } from 'shared';
 import MatchList from '../matchList/MatchList';
-import { Button, Card, CardContent  } from '@material-ui/core';
-
+import { Button, Card, CardContent } from '@material-ui/core';
+import useSWR from 'swr'
 
 const MatchPage: FC = () =>
 {
-    const matches: MatchModel[] = [
-        {
-            id: "Match-ID",
-            gameId: "Game-ID"
-        }
-    ];
+    const openMatchesRequest = useSWR<MatchModel[]>('/match/all');
 
     return (
         <Card>
@@ -20,9 +15,11 @@ const MatchPage: FC = () =>
                     Create game
                 </Button>
             </CardContent>
-            <MatchList
-                matches={matches}
-            />
+            {openMatchesRequest.data &&
+                <MatchList
+                    matches={openMatchesRequest.data}
+                />
+            }
         </Card>
     );
 }
