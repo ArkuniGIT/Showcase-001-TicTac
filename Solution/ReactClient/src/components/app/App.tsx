@@ -14,7 +14,13 @@ const swrConfigValue: Partial<PublicConfiguration> =
     fetcher: (url: string) => axios.get(url).then(r => r.data),
 }
 
-const theme = createTheme();
+const theme = createTheme({
+    typography: {
+        h1: {
+            fontSize: "3rem",
+        }
+    }
+});
 
 const App: FC = () =>
 {
