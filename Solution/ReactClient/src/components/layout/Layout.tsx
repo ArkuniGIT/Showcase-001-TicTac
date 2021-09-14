@@ -1,5 +1,5 @@
-import { Container, Typography } from '@material-ui/core';
-import React, { FC } from 'react';
+import { Typography } from '@material-ui/core';
+import { FC } from 'react';
 import styles from "./Layout.module.css";
 
 const Layout: FC = (props) =>

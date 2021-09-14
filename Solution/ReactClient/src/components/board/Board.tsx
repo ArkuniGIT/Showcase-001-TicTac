@@ -8,8 +8,6 @@ export interface BoardProps
 
 const MatchList: FC<BoardProps> = (props) =>
 {
-    const { } = props;
-
     return (
         <div className={styles.board}>
             <div />

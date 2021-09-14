@@ -1,11 +1,11 @@
 import { createTheme, ThemeProvider } from '@material-ui/core';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { SWRConfig } from 'swr';
 import { PublicConfiguration } from 'swr/dist/types';
-import Layout from 'components/layout/Layout';
-import Routes from 'components/routes/Routes';
 import { BrowserRouter } from "react-router-dom";
 import axios from 'axios';
+import { RecoilRoot } from 'recoil';
+import Startup from 'components/startup/Startup';
 
 axios.defaults.baseURL = process.env.REACT_APP_PUBLIC_API_ENDPOINT;
 
@@ -25,15 +25,15 @@ const theme = createTheme({
 const App: FC = () =>
 {
     return (
-        <SWRConfig value={swrConfigValue}>
-            <ThemeProvider theme={theme}>
-                <BrowserRouter>
-                    <Layout>
-                        <Routes />
-                    </Layout>
-                </BrowserRouter>
-            </ThemeProvider>
-        </SWRConfig>
+        <RecoilRoot>
+            <SWRConfig value={swrConfigValue}>
+                <ThemeProvider theme={theme}>
+                    <BrowserRouter>
+                        <Startup />
+                    </BrowserRouter>
+                </ThemeProvider>
+            </SWRConfig>
+        </RecoilRoot>
     );
 }
 

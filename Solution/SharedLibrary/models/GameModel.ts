@@ -2,10 +2,13 @@ import { GameState } from "enums/GameState";
 
 export interface GameModel
 {
-    id: string;
+    $id?: string;
+
     matchId: string;
+    
     users: string[];
-    userTurn: number;
+    
+    activeUserIndex: number;
     state: GameState;
     board: number[];
 }
