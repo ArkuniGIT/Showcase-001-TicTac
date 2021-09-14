@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Param } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { MatchModel } from 'shared';
 import { MatchService } from './match.service';
 
@@ -10,6 +11,15 @@ export class MatchController
     @Get("all")
     async getAll(): Promise<MatchModel[]>
     {
-        return this.matchService.getAllOpen();
+        return this.matchService.FindAllOpen();
+    }
+
+    @Post("")
+    async postNew(
+        @Param('userId') userId: string
+    )
+        : Promise<MatchModel>
+    {
+        return this.matchService.CreateNew(userId);
     }
 }

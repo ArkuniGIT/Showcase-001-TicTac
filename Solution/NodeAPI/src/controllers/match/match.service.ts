@@ -1,11 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { MatchModel } from "shared";
+import { AppwriteService } from 'controllers/appwrite/appwrite.service';
+import { MatchModel, MatchState } from "shared";
 
 @Injectable()
 export class MatchService
 {
-    async getAllOpen(): Promise<MatchModel[]>
+    constructor(private appwriteService: AppwriteService) { }
+    
+    async FindAllOpen(): Promise<MatchModel[]>
     {
         return [];
+    }
+    
+    async CreateNew(userId: string): Promise<MatchModel>
+    {
+        return {
+            id: "New-Match-ID",
+            gameId: "New-Game-ID",
+            state: MatchState.Open
+        };
     }
 }
