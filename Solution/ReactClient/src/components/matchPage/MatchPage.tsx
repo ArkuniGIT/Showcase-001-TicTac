@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { MatchModel, MatchState } from 'shared';
+import { GetAllMatchesResponse, MatchModel, MatchState } from 'shared';
 import MatchList from '../matchList/MatchList';
 import { Button, Card, CardContent, CardHeader, Divider, IconButton, Typography } from '@material-ui/core';
 import useSWR from 'swr'
@@ -11,13 +11,12 @@ import AddIcon from '@material-ui/icons/Add';
 const MatchPage: FC = () =>
 {
     const [user] = useRecoilState(userState);
-    const matchesRequest = useSWR<MatchModel[]>('/match/all');
+    const matchesRequest = useSWR<GetAllMatchesResponse>('/match/all');
 
     if (!matchesRequest.data)
         return <></>;
-
-    const userMatches = matchesRequest.data.filter(x => x.state === MatchState.Active);
-    const openMatches = matchesRequest.data.filter(x => x.state === MatchState.Open);
+        
+    const { activeMatches, openMatches } = matchesRequest.data;
 
     const onCreateClick = async () =>
     {
@@ -27,13 +26,7 @@ const MatchPage: FC = () =>
                 userId: user.id,
             });
 
-            matchesRequest.mutate((oldData) => 
-            {
-                if (!oldData)
-                    return [createResult.data];
-
-                return [...oldData, createResult.data];
-            }, false);
+            matchesRequest.mutate();
         }
         catch (err)
         {
@@ -43,14 +36,14 @@ const MatchPage: FC = () =>
 
     return (
         <>
-            {userMatches.length > 0 &&
+            {activeMatches.length > 0 &&
                 <>
                     <Card>
                         <CardHeader
                             title="Your games"
                         />
                         <MatchList
-                            matches={userMatches}
+                            matches={activeMatches}
                         />
                     </Card>
                     <br />

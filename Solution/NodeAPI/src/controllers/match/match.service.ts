@@ -20,12 +20,23 @@ export class MatchService
         return matchDocument;
     }
 
-    async FindAllOpen(): Promise<MatchModel[]>
+    async FindActive(userId: string): Promise<MatchModel[]>
     {
         const { database } = this.appwriteService;
 
         const matchCollection = await this.appwriteService.getCollectionByName("matches");
-        const matchList = await database.listDocuments<any>(matchCollection.$id, [`state!=${MatchState.Closed}`], 100, 0);
+        const matchList = await database.listDocuments<any>(matchCollection.$id, [`state=${MatchState.Active}`], 100, 0);
+        const matchDocuments = matchList.documents;
+        
+        return matchDocuments;
+    }
+
+    async FindOpen(userId: string): Promise<MatchModel[]>
+    {
+        const { database } = this.appwriteService;
+
+        const matchCollection = await this.appwriteService.getCollectionByName("matches");
+        const matchList = await database.listDocuments<any>(matchCollection.$id, [`state!=${MatchState.Open}`], 20, 0);
         const matchDocuments = matchList.documents;
         
         return matchDocuments;

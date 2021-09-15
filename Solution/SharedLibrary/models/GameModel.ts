@@ -1,4 +1,4 @@
-import { GameState } from "enums/GameState";
+import { GameState } from "enums/gameState";
 
 export interface GameModel
 {
