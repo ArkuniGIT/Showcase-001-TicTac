@@ -5,9 +5,10 @@ import { AppService } from './app.service';
 import { AppwriteModule } from './appwrite/appwrite.module';
 import { GameModule } from './game/game.module';
 import { MatchModule } from './match/match.module';
+import { AccountModule } from './account/account.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), AppwriteModule, GameModule, MatchModule],
+  imports: [ConfigModule.forRoot(), AppwriteModule, AccountModule, GameModule, MatchModule],
   controllers: [AppController],
   providers: [AppService],
 })

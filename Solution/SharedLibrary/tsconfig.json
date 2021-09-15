@@ -1,12 +1,14 @@
 {
     "compilerOptions": {
-      "module": "commonjs",
-      "noImplicitAny": true,
-      "removeComments": true,
-      "preserveConstEnums": true,
-      "sourceMap": true,
-      "outDir": "bin",
-      "declaration": true,
-      "baseUrl": ""
-    }
-  }
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "outDir": "bin",
+        "declaration": true,
+        "baseUrl": "./src",
+    },
+    "files": ["index.ts"],
+    "include": ["src/**/*"],
+}

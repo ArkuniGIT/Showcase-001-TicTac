@@ -10,6 +10,8 @@ var run = async () =>
     var client = createAppwriteClient();
     var database = new sdk.Database(client);
     var storage = new sdk.Storage(client);
+    var account = new sdk.Account(client);
+    var users = new sdk.Users(client);
 
     try
     {
@@ -26,15 +28,31 @@ var run = async () =>
         // Delete all files
         while (true)
         {
-            var storageResult = await storage.listFiles();
-            if (storageResult.sum === 0)
+            var userResult = await storage.listFiles();
+            if (userResult.sum === 0)
                 break;
 
-            if (storageResult && storageResult.files.length > 0)
+            if (userResult && userResult.files.length > 0)
             {
-                storageResult.files.forEach((x) =>
+                userResult.files.forEach((x) =>
                 {
                     storage.deleteFile(x.$id);
+                });
+            }
+        }
+
+        // Delete all users
+        while (true)
+        {
+            var userResult = await users.list();
+            if (userResult.sum === 0)
+                break;
+
+            if (userResult && userResult.users.length > 0)
+            {
+                userResult.users.forEach((x) =>
+                {
+                    users.delete(x.$id);
                 });
             }
         }

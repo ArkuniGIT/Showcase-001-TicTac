@@ -1,5 +1,5 @@
-import { MatchState } from "enums/matchState";
-import { GameModel } from "index";
+import { MatchState } from "../enums/matchState";
+import { GameModel } from "./gameModel";
 
 export interface MatchModel
 {

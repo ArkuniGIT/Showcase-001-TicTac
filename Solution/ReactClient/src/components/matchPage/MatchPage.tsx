@@ -5,12 +5,14 @@ import { Button, Card, CardContent, CardHeader, Divider, IconButton, Typography 
 import useSWR from 'swr'
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import { userState } from 'state/userState';
+import { userState } from 'state/accountState';
 import AddIcon from '@material-ui/icons/Add';
+import { loaderState } from 'state/loaderState';
 
 const MatchPage: FC = () =>
 {
     const [user] = useRecoilState(userState);
+    const [loader, setLoader] = useRecoilState(loaderState);
     const matchesRequest = useSWR<GetAllMatchesResponse>('/match/all');
 
     if (!matchesRequest.data)
@@ -20,17 +22,21 @@ const MatchPage: FC = () =>
 
     const onCreateClick = async () =>
     {
+        setLoader(true);
+
         try 
         {
-            const createResult = await axios.post<MatchModel>("/match/create", {
-                userId: user.id,
-            });
+            const createResult = await axios.post<MatchModel>("/match/create");
 
             matchesRequest.mutate();
         }
         catch (err)
         {
             console.log(err);
+        }
+        finally
+        {
+            setLoader(false);
         }
     }
 
@@ -73,3 +79,4 @@ const MatchPage: FC = () =>
 }
 
 export default MatchPage;
+

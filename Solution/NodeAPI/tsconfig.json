@@ -20,11 +20,5 @@
         "paths": {
             "shared": ["../SharedLibrary"]
         }
-    },
-    "references": [
-        {
-            "path": "../SharedLibrary",
-            "prepend": false,
-        }
-    ]
+    }
 }

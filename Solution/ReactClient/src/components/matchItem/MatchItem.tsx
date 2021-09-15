@@ -4,10 +4,11 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { MatchModel, MatchState } from "shared";
-import { userState } from 'state/userState';
+import { userState } from 'state/accountState';
 import styles from "./MatchItem.module.css";
 import ArrowIcon from "@material-ui/icons/ArrowForward";
 import HourGlassIcon from "@material-ui/icons/HourglassFull";
+import { loaderState } from 'state/loaderState';
 
 export interface MatchItemProps 
 {
@@ -19,19 +20,32 @@ const MatchItem: FC<MatchItemProps> = (props) =>
     const { model } = props;
 
     const [user] = useRecoilState(userState);
+    const [loader, setLoader] = useRecoilState(loaderState);
 
-    if (model.users.indexOf(user.id) === -1)
+    if (model.users.indexOf(user.$id) === -1)
     {
         const onJoinClick = async () => 
         {
-            const joinResult = await axios.post<MatchModel>("/match/join", {
-                userId: user.id,
-                matchId: model.$id
-            });
+            setLoader(true);
+
+            try 
+            {
+                const joinResult = await axios.post<MatchModel>("/match/join", {
+                    matchId: model.$id
+                });
+            }
+            catch (err)
+            {
+                console.log(err);
+            }
+            finally
+            {
+                setLoader(false);
+            }
         }
 
         return (
-            <ListItem button className={styles.matchItem}>
+            <ListItem button className={styles.matchItem} onClick={onJoinClick}>
                 <ListItemIcon>
                     <ArrowIcon />
                 </ListItemIcon>
@@ -39,33 +53,30 @@ const MatchItem: FC<MatchItemProps> = (props) =>
             </ListItem>
         );
     }
-    else
+
+    if (model.state === MatchState.Open)
     {
-        if (model.state === MatchState.Open)
-        {
-            return (
-                <ListItem className={styles.matchItem}>
+        return (
+            <ListItem className={styles.matchItem}>
                 <ListItemIcon>
                     <HourGlassIcon />
                 </ListItemIcon>
-                    <ListItemText primary="Waiting for other player to join." />
-                </ListItem>
-            );
-        }
-        else
-        {     
-            return (
-                <Link to={`/game/${model.$id}`}>
-                    <ListItem button className={styles.matchItem}>
-                    <ListItemIcon>
-                        <ArrowIcon />
-                    </ListItemIcon>
-                        <ListItemText primary="Continue game." />
-                    </ListItem>
-                </Link>          
-            ); 
-        }
+                <ListItemText primary="Waiting for other player to join." />
+            </ListItem>
+        );
     }
+
+    return (
+        <Link to={`/game/${model.$id}`}>
+            <ListItem button className={styles.matchItem}>
+                <ListItemIcon>
+                    <ArrowIcon />
+                </ListItemIcon>
+                <ListItemText primary="Continue game." />
+            </ListItem>
+        </Link>
+    );
+
 }
 
 export default MatchItem;

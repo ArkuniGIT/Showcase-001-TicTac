@@ -1,4 +1,4 @@
-import { MatchModel } from "index";
+import { MatchModel } from "../models/matchModel";
 
 export interface GetAllMatchesResponse 
 {
