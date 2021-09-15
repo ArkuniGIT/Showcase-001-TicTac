@@ -1,26 +1,19 @@
-import { createTheme, ThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core';
 import { FC } from 'react';
 import { SWRConfig } from 'swr';
-import { PublicConfiguration } from 'swr/dist/types';
 import { BrowserRouter } from "react-router-dom";
 import axios from 'axios';
 import { RecoilRoot } from 'recoil';
 import Startup from 'components/startup/Startup';
+import { createAxiosConfig } from 'utility/createAxiosConfig';
+import { createSwrConfig } from 'utility/createSwrConfig';
+import { createTheme } from 'utility/createTheme';
+import { changeAxios } from 'utility/changeAxios';
 
-axios.defaults.baseURL = process.env.REACT_APP_PUBLIC_API_ENDPOINT;
+changeAxios(axios);
 
-const swrConfigValue: Partial<PublicConfiguration> =
-{
-    fetcher: (url: string) => axios.get(url).then(r => r.data),
-}
-
-const theme = createTheme({
-    typography: {
-        h1: {
-            fontSize: "3rem",
-        }
-    }
-});
+const swrConfigValue = createSwrConfig();
+const theme = createTheme();
 
 const App: FC = () =>
 {
@@ -38,3 +31,4 @@ const App: FC = () =>
 }
 
 export default App;
+

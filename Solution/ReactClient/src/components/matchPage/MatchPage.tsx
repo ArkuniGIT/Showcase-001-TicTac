@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { GetAllMatchesResponse, MatchModel, MatchState } from 'shared';
+import { GetAllMatchesResponse, MatchModel } from 'shared';
 import MatchList from '../matchList/MatchList';
-import { Button, Card, CardContent, CardHeader, Divider, IconButton, Typography } from '@material-ui/core';
+import { Button, Card, CardContent, CardHeader, Divider, IconButton } from '@material-ui/core';
 import useSWR from 'swr'
 import axios from 'axios';
 import { useRecoilState } from 'recoil';

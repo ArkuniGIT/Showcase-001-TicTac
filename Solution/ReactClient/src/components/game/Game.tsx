@@ -1,6 +1,6 @@
-import { Button, Card, CardActions, CardContent, Divider, IconButton } from '@material-ui/core';
+import { Button, Card, CardContent, Divider } from '@material-ui/core';
 import Board from 'components/board/Board';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { GameModel } from 'shared';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { Link } from 'react-router-dom';
