@@ -46,7 +46,7 @@ const MatchPage: FC = () =>
                 <>
                     <Card>
                         <CardHeader
-                            title="Your games"
+                            title="Active games"
                         />
                         <MatchList
                             matches={activeMatches}
