@@ -1,22 +1,33 @@
-import React, { FC } from 'react';
-import { GameModel, GameState } from 'shared';
+import { FC } from 'react';
+import { GameModel } from 'shared';
 import Game from 'components/game/Game';
+import { useParams } from 'react-router-dom';
+import { useAppwriteRealtime } from 'hooks/useAppwriteRealtime';
+import useSWR from 'swr';
+import { gameFetcher } from 'utility/fetchers/gameFetcher';
+import { CircularProgress } from '@material-ui/core';
 
 const GamePage: FC = () =>
 {
-    const model: GameModel = {
-        $id: "Game-ID",
-        matchId: "Match-ID",
-        state: GameState.Playing,
-        board: new Array(9).fill(-1),
-        activeUserIndex: 0,
-        users: ["userA", "userB"]
-    }
+    const params = useParams<{ id: string }>();
+    const matchReq = useSWR<GameModel>(`game/${params.id}`, gameFetcher);
+
+    useAppwriteRealtime<GameModel>(`documents.${params.id}`, (res) =>
+    {
+        matchReq.mutate();
+    });
 
     return (
-        <Game
-            model={model}
-        />
+        <>
+            {!matchReq.data &&
+                <CircularProgress />
+            }
+            {matchReq.data &&
+                <Game
+                    model={matchReq.data}
+                />
+            }
+        </>
     );
 }
 

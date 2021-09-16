@@ -16,7 +16,7 @@ const MatchList: FC<MatchListProps> = (props) =>
 
     return (
         <List disablePadding>
-            {matches.length == 0 &&
+            {matches.length === 0 &&
                 <ListItem>
                     {props.emptyLabel}
                 </ListItem>

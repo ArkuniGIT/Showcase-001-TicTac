@@ -1,7 +1,6 @@
 import matchDef from "../definitions/matchDef.js";
 import gameDef from "../definitions/gameDef.js";
 import createAppwriteClient from "../utility/createAppwriteClient.js";
-import runEmpty from "./empty.js";
 import sdk from 'node-appwrite';
 
 var run = async () =>
@@ -11,15 +10,13 @@ var run = async () =>
 
     try
     {
-        await runEmpty();
-
         // Delete all collections
         var collectionResult = await database.listCollections();
         if (collectionResult && collectionResult.collections.length > 0)
         {
-            collectionResult.collections.forEach((x) =>
+            collectionResult.collections.forEach(async (x) =>
             {
-                database.deleteCollection(x.$id);
+                await database.deleteCollection(x.$id);
             });
         }
 

@@ -19,7 +19,7 @@ var run = async () =>
                 const documentResult = await database.listDocuments(x.$id);
                 documentResult.documents.forEach(async (y) =>
                 {
-                    database.deleteDocument(x.$id, y.$id);
+                    await database.deleteDocument(x.$id, y.$id);
                 });
             });
         }

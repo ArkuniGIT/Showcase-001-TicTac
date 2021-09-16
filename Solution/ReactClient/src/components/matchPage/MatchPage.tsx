@@ -1,21 +1,27 @@
 import { FC } from 'react';
-import { MatchModel } from 'shared';
+import { MatchModel, databaseConstants } from 'shared';
 import MatchList from '../matchList/MatchList';
 import { Button, Card, CardContent, CardHeader, CircularProgress, Divider, IconButton } from '@material-ui/core';
 import useSWR from 'swr'
-import axios from 'axios';
 import AddIcon from '@material-ui/icons/Add';
 import { openMatchesFetcher } from 'utility/fetchers/openMatchesFetcher';
 import { activeMatchesFetcher } from 'utility/fetchers/activeMatchesFetcher';
-import { useApiCreateMatch } from 'hooks/useApiCreateMatch';
+import { useAppwriteRealtime } from 'hooks/useAppwriteRealtime';
+import { useApiPost } from 'hooks/useApiPost';
 
 const MatchPage: FC = () =>
 {
-    const activeMatchesRequest = useSWR<MatchModel[]>('activeMatches', activeMatchesFetcher);
-    const openMatchesRequest = useSWR<MatchModel[]>('openMatches', openMatchesFetcher);
-    const createMatch = useApiCreateMatch(() =>
+    const activeMatchesReq = useSWR<MatchModel[]>('activeMatches', activeMatchesFetcher);
+    const openMatchesReq = useSWR<MatchModel[]>('openMatches', openMatchesFetcher);
+    const createMatchReq = useApiPost("/match/create", null, () =>
     {
-        openMatchesRequest.mutate();
+        openMatchesReq.mutate();
+    });
+
+    useAppwriteRealtime<MatchModel>(`collections.${databaseConstants.matchCollectionId}.documents`, (res) =>
+    {
+        activeMatchesReq.mutate();
+        openMatchesReq.mutate();
     });
 
     return (
@@ -25,13 +31,13 @@ const MatchPage: FC = () =>
                     title="Active games"
                 />
                 <Divider />
-                {activeMatchesRequest.data &&
+                {activeMatchesReq.data &&
                     <MatchList
-                        matches={activeMatchesRequest.data}
+                        matches={activeMatchesReq.data}
                         emptyLabel={"You don't have any active games."}
                     />
                 }
-                {activeMatchesRequest.isValidating && !activeMatchesRequest.data &&
+                {activeMatchesReq.isValidating && !activeMatchesReq.data &&
                     <CardContent>
                         <CircularProgress />
                     </CardContent>
@@ -48,20 +54,20 @@ const MatchPage: FC = () =>
                     }
                 />
                 <Divider />
-                {openMatchesRequest.data &&
+                {openMatchesReq.data &&
                     <MatchList
-                        matches={openMatchesRequest.data}
+                        matches={openMatchesReq.data}
                         emptyLabel={"There are no open games."}
                     />
                 }
-                {openMatchesRequest.isValidating && !openMatchesRequest.data &&
+                {openMatchesReq.isValidating && !openMatchesReq.data &&
                     <CardContent>
                         <CircularProgress />
                     </CardContent>
                 }
                 <Divider />
                 <CardContent>
-                    <Button variant="contained" color="primary" onClick={createMatch.invoke} disabled={createMatch.loading}>
+                    <Button variant="contained" color="primary" onClick={createMatchReq.invoke} disabled={createMatchReq.loading}>
                         Create new game
                     </Button>
                 </CardContent>

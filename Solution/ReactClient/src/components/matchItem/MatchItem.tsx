@@ -8,6 +8,7 @@ import { userState } from 'state/accountState';
 import styles from "./MatchItem.module.css";
 import ArrowIcon from "@material-ui/icons/ArrowForward";
 import HourGlassIcon from "@material-ui/icons/HourglassFull";
+import { useApiPost } from 'hooks/useApiPost';
 
 export interface MatchItemProps 
 {
@@ -18,30 +19,14 @@ const MatchItem: FC<MatchItemProps> = (props) =>
 {
     const { model } = props;
 
+
     const [user] = useRecoilState(userState);
+    const joinMatchReq = useApiPost("/match/join", { matchId: model.$id });
 
     if (model.users.indexOf(user.$id) === -1)
     {
-        const onJoinClick = async () => 
-        {
-            try 
-            {
-                const joinResult = await axios.post<MatchModel>("/match/join", {
-                    matchId: model.$id
-                });
-            }
-            catch (err)
-            {
-                console.log(err);
-            }
-            finally
-            {
-
-            }
-        }
-
         return (
-            <ListItem button className={styles.matchItem} onClick={onJoinClick}>
+            <ListItem button className={styles.matchItem} onClick={joinMatchReq.invoke} disabled={joinMatchReq.loading}>
                 <ListItemIcon>
                     <ArrowIcon />
                 </ListItemIcon>
@@ -66,7 +51,7 @@ const MatchItem: FC<MatchItemProps> = (props) =>
     const otherPlayer = model.users[otherPlayerIndex];
 
     return (
-        <Link to={`/game/${model.$id}`}>
+        <Link to={`/game/${model.gameId}`}>
             <ListItem button className={styles.matchItem}>
                 <ListItemIcon>
                     <ArrowIcon />

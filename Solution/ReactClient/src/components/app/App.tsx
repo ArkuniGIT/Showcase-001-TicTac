@@ -8,6 +8,8 @@ import Startup from 'components/startup/Startup';
 import { createSwrConfig } from 'utility/configs/createSwrConfig';
 import { createTheme } from 'utility/configs/createTheme';
 import { changeAxios } from 'utility/configs/changeAxios';
+import { SnackbarProvider } from 'notistack';
+import { createAppwrite } from 'utility/appwrite/createAppwrite';
 
 changeAxios(axios);
 
@@ -20,9 +22,11 @@ const App: FC = () =>
         <RecoilRoot>
             <SWRConfig value={swrConfigValue}>
                 <ThemeProvider theme={theme}>
-                    <BrowserRouter>
-                        <Startup />
-                    </BrowserRouter>
+                    <SnackbarProvider maxSnack={3}>
+                        <BrowserRouter>
+                            <Startup />
+                        </BrowserRouter>
+                    </SnackbarProvider>
                 </ThemeProvider>
             </SWRConfig>
         </RecoilRoot>

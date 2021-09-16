@@ -1,10 +1,8 @@
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { MatchModel } from "shared";
-import useSWR from "swr";
 
-export const useApiCreateMatch = (resolved?: (res: MatchModel) => void) =>
+export const useApiPost = <T>(url: string, data: any, resolved?: (res: T) => void) =>
 {
     const snackbar = useSnackbar();
     const [loading, setLoading] = useState(false);
@@ -15,14 +13,16 @@ export const useApiCreateMatch = (resolved?: (res: MatchModel) => void) =>
 
         try 
         {
-            const res = await axios.post<MatchModel>("/match/create");
+            const res = await axios.post<T>(url, data);
 
             if (resolved)
                 resolved(res.data);
         }
-        catch (err: any)
+        catch (error: any)
         {
-            snackbar.enqueueSnackbar(err, { variant: "error" });
+            const message = error.response ? error.response.status : "Connection could not be made to the server.";
+
+            snackbar.enqueueSnackbar(message, { variant: "error" });
         }
         finally
         {

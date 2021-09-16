@@ -27,12 +27,4 @@ export class AppwriteService
             .setKey(process.env.APPWRITE_KEY)
             .setJWT(jwt);
     }
-
-    async getCollectionByName(name: string)
-    {
-        var collections = await this.database.listCollections(`name=${name}`) as any;
-        var collection = collections.collections[0];
-
-        return collection;
-    }
 }

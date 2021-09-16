@@ -33,7 +33,7 @@ const gameDef = [
     },
     {
         "label": "Board",
-        "key": "state",
+        "key": "board",
         "type": "numeric",
         "default": [],
         "required": true,

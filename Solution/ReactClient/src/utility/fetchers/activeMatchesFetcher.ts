@@ -1,4 +1,4 @@
-import { MatchModel, MatchState } from "shared";
+import { MatchModel, MatchState, databaseConstants } from "shared";
 import { createAppwrite } from "utility/appwrite/createAppwrite"
 
 export const activeMatchesFetcher = async () =>
@@ -6,6 +6,6 @@ export const activeMatchesFetcher = async () =>
     const appwrite = createAppwrite();
 
     return appwrite.database
-        .listDocuments<any>("6142083deb3c8", [`state=${MatchState.Active}`], 100, 0)
+        .listDocuments<any>(databaseConstants.matchCollectionId, [`state=${MatchState.Active}`], 100, 0)
         .then<MatchModel[]>((res) => res.documents);;
 }

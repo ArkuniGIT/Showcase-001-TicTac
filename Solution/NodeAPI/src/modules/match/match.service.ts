@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AccountService } from 'modules/account/account.service';
 import { AppwriteService } from 'modules/appwrite/appwrite.service';
-import { MatchModel, MatchState } from "shared";
+import { databaseConstants, GameModel, GameState, MatchModel, MatchState, UserModel } from "shared";
 
 @Injectable()
 export class MatchService
@@ -10,7 +10,7 @@ export class MatchService
         private appwriteService: AppwriteService,
         private accountService: AccountService,
     ) { }
-    
+
     async CreateNew(): Promise<MatchModel>
     {
         const { database } = this.appwriteService;
@@ -23,8 +23,7 @@ export class MatchService
             users: [account.$id],
             state: MatchState.Open,
         };
-        const matchCollection = await this.appwriteService.getCollectionByName("matches");
-        const matchDocument = await database.createDocument(matchCollection.$id, match, ['*'], []);
+        const matchDocument = await database.createDocument(databaseConstants.matchCollectionId, match, ['*'], []);
 
         return matchDocument as any;
     }
@@ -35,20 +34,42 @@ export class MatchService
 
         const account = await this.accountService.getAccount();
 
-        const matchCollection = await this.appwriteService.getCollectionByName("matches");
-        const matchDocument = await database.getDocument<MatchModel>(matchCollection.$id, matchId);
-        
+        const matchDocument = await database.getDocument<MatchModel>(databaseConstants.matchCollectionId, matchId);
         if (!matchDocument)
             throw new Error("Match does not exist.");
 
-        matchDocument.state = MatchState.Active;
+        const userAlreadyJoined = matchDocument.users.includes(account.$id);
+        if (userAlreadyJoined)
+            throw new Error("User have already joined.");
+
         matchDocument.users.push(account.$id);
 
+        const gameDocument = await this.CreateGame(account, matchDocument);
+
+        matchDocument.gameId = gameDocument.$id;
+        matchDocument.state = MatchState.Active;
+
         const readPermissions = matchDocument.users.map(x => `user:${x}`);
-        database.updateDocument(matchCollection.$id, matchDocument.$id, matchDocument, readPermissions, []);
+        database.updateDocument(databaseConstants.matchCollectionId, matchDocument.$id, matchDocument, readPermissions, []);
 
-        console.log(readPermissions);
+        return matchDocument;
+    }
 
-        return matchDocument as any;
+    async CreateGame(account: UserModel, matchDocument: MatchModel): Promise<GameModel>
+    {
+        const { database } = this.appwriteService;
+
+        const game: GameModel = {
+            matchId: matchDocument.$id,
+            users: [...matchDocument.users],
+            board: [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+            state: GameState.Playing,
+            activeUserIndex: Math.floor(Math.random() * 2),
+        }
+        
+        const readPermissions = game.users.map(x => `user:${x}`);
+        const gameDocument = await database.createDocument<GameModel>(databaseConstants.gameCollectionId, game, readPermissions, []);
+
+        return gameDocument;
     }
 }
