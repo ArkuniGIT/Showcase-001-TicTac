@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { GameModel } from 'shared';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { Link } from 'react-router-dom';
+import styles from "./Game.module.css";
 
 export interface GameProps
 {
@@ -15,7 +16,9 @@ const Game: FC<GameProps> = () =>
     return (
         <Card>
             <CardContent>
-                <Board />
+                <div className={styles.boardContainer}>
+                    <Board />
+                </div>
             </CardContent>
             <Divider />
             <CardContent>

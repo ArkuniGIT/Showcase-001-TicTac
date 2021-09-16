@@ -1,60 +1,43 @@
 import { FC } from 'react';
-import { GetAllMatchesResponse, MatchModel } from 'shared';
+import { MatchModel } from 'shared';
 import MatchList from '../matchList/MatchList';
-import { Button, Card, CardContent, CardHeader, Divider, IconButton } from '@material-ui/core';
+import { Button, Card, CardContent, CardHeader, CircularProgress, Divider, IconButton } from '@material-ui/core';
 import useSWR from 'swr'
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
-import { userState } from 'state/accountState';
 import AddIcon from '@material-ui/icons/Add';
-import { loaderState } from 'state/loaderState';
+import { openMatchesFetcher } from 'utility/fetchers/openMatchesFetcher';
+import { activeMatchesFetcher } from 'utility/fetchers/activeMatchesFetcher';
+import { useApiCreateMatch } from 'hooks/useApiCreateMatch';
 
 const MatchPage: FC = () =>
 {
-    const [user] = useRecoilState(userState);
-    const [loader, setLoader] = useRecoilState(loaderState);
-    const matchesRequest = useSWR<GetAllMatchesResponse>('/match/all');
-
-    if (!matchesRequest.data)
-        return <></>;
-        
-    const { activeMatches, openMatches } = matchesRequest.data;
-
-    const onCreateClick = async () =>
+    const activeMatchesRequest = useSWR<MatchModel[]>('activeMatches', activeMatchesFetcher);
+    const openMatchesRequest = useSWR<MatchModel[]>('openMatches', openMatchesFetcher);
+    const createMatch = useApiCreateMatch(() =>
     {
-        setLoader(true);
-
-        try 
-        {
-            const createResult = await axios.post<MatchModel>("/match/create");
-
-            matchesRequest.mutate();
-        }
-        catch (err)
-        {
-            console.log(err);
-        }
-        finally
-        {
-            setLoader(false);
-        }
-    }
+        openMatchesRequest.mutate();
+    });
 
     return (
         <>
-            {activeMatches.length > 0 &&
-                <>
-                    <Card>
-                        <CardHeader
-                            title="Active games"
-                        />
-                        <MatchList
-                            matches={activeMatches}
-                        />
-                    </Card>
-                    <br />
-                </>
-            }
+            <Card>
+                <CardHeader
+                    title="Active games"
+                />
+                <Divider />
+                {activeMatchesRequest.data &&
+                    <MatchList
+                        matches={activeMatchesRequest.data}
+                        emptyLabel={"You don't have any active games."}
+                    />
+                }
+                {activeMatchesRequest.isValidating && !activeMatchesRequest.data &&
+                    <CardContent>
+                        <CircularProgress />
+                    </CardContent>
+                }
+            </Card>
+            <br />
             <Card>
                 <CardHeader
                     title="Open games"
@@ -64,12 +47,21 @@ const MatchPage: FC = () =>
                         </IconButton>
                     }
                 />
-                <MatchList
-                    matches={openMatches}
-                />
+                <Divider />
+                {openMatchesRequest.data &&
+                    <MatchList
+                        matches={openMatchesRequest.data}
+                        emptyLabel={"There are no open games."}
+                    />
+                }
+                {openMatchesRequest.isValidating && !openMatchesRequest.data &&
+                    <CardContent>
+                        <CircularProgress />
+                    </CardContent>
+                }
                 <Divider />
                 <CardContent>
-                    <Button variant="contained" color="primary" onClick={onCreateClick}>
+                    <Button variant="contained" color="primary" onClick={createMatch.invoke} disabled={createMatch.loading}>
                         Create new game
                     </Button>
                 </CardContent>

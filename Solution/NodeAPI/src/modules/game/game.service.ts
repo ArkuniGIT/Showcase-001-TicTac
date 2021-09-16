@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AppwriteService } from 'controllers/appwrite/appwrite.service';
+import { AppwriteService } from 'modules/appwrite/appwrite.service';
 import { GameModel } from "shared";
 
 @Injectable()

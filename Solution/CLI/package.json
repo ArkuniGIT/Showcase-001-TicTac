@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "setup": "node -r dotenv/config ./src/scripts/setup",
-    "quick": "node -r dotenv/config ./src/scripts/quick"
+    "empty": "node -r dotenv/config ./src/scripts/empty"
   },
   "author": "",
   "license": "ISC",

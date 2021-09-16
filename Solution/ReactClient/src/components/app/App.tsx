@@ -5,10 +5,9 @@ import { BrowserRouter } from "react-router-dom";
 import axios from 'axios';
 import { RecoilRoot } from 'recoil';
 import Startup from 'components/startup/Startup';
-import { createAxiosConfig } from 'utility/createAxiosConfig';
-import { createSwrConfig } from 'utility/createSwrConfig';
-import { createTheme } from 'utility/createTheme';
-import { changeAxios } from 'utility/changeAxios';
+import { createSwrConfig } from 'utility/configs/createSwrConfig';
+import { createTheme } from 'utility/configs/createTheme';
+import { changeAxios } from 'utility/configs/changeAxios';
 
 changeAxios(axios);
 

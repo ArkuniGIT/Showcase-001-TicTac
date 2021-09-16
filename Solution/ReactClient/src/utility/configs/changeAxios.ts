@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Cookies from "js-cookie";
-import { createAppwrite } from "./createAppwrite";
+import { createAppwrite } from "../appwrite/createAppwrite";
 
 export const changeAxios = (axios: AxiosInstance) =>
 {

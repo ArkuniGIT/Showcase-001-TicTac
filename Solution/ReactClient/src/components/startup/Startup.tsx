@@ -3,11 +3,11 @@ import Layout from 'components/layout/Layout';
 import Routes from 'components/routes/Routes';
 import { useRecoilState } from 'recoil';
 import { userState } from 'state/accountState';
-import { createSavedAccount } from 'utility/createSavedAccount';
+import { createSavedAccount } from 'utility/cookies/createSavedAccount';
 import axios from 'axios';
-import { createAppwrite } from 'utility/createAppwrite';
-import { getSavedAccount } from 'utility/getSavedAccount';
-import { createName } from 'utility/createName';
+import { createAppwrite } from 'utility/appwrite/createAppwrite';
+import { getSavedAccount } from 'utility/cookies/getSavedAccount';
+import { createName } from 'utility/values/createName';
 import { UserModel } from '../../../../SharedLibrary';
 import Cookies from 'js-cookie';
 

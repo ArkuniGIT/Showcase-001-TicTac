@@ -1,10 +1,10 @@
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
-import { HttpException, HttpStatus, Inject, Injectable, Scope } from '@nestjs/common';
-import { Client, Database, Storage, Account } from 'node-appwrite'
-import { AppwriteService } from 'controllers/appwrite/appwrite.service';
-import { UserModel } from '../../../../SharedLibrary';
-import { throwHttpError } from 'utility/throwHttpError';
+import { Inject, Injectable, Scope } from '@nestjs/common';
+import { Account } from 'node-appwrite'
+import { AppwriteService } from 'modules/appwrite/appwrite.service';
+import { UserModel } from 'shared';
+import { throwHttpError } from 'utility/errors/throwHttpError';
 
 @Injectable({ scope: Scope.REQUEST })
 export class AccountService

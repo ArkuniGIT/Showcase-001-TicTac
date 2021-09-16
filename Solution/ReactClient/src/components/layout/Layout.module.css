@@ -4,3 +4,15 @@
     min-height: 100vh;
     box-sizing: border-box;
 }
+
+.titleContainer {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    padding-bottom: 16px;
+}
+
+.titleContainer > p 
+{
+    opacity: 0.5;
+}
