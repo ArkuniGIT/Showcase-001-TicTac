@@ -1,4 +1,4 @@
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 import { FC } from 'react';
 import styles from "./ScreenLoader.module.css";
 

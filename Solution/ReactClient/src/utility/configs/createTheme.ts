@@ -1,7 +1,6 @@
-import { createTheme as createMuiTheme } from '@material-ui/core';
-import { Theme } from "@material-ui/core";
+import { createTheme as createMuiTheme } from '@mui/material';
 
-export const createTheme = (): Theme =>
+export const createTheme = () =>
 {
     return createMuiTheme({
         typography: {

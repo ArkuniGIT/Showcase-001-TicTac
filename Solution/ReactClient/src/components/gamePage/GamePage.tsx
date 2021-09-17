@@ -5,9 +5,8 @@ import { useParams } from 'react-router-dom';
 import { useAppwriteRealtime } from 'hooks/useAppwriteRealtime';
 import useSWR from 'swr';
 import { gameFetcher } from 'utility/fetchers/gameFetcher';
-import { CircularProgress } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import { stringify } from 'querystring';
+import { CircularProgress } from '@mui/material';
+import { Alert } from '@mui/lab';
 
 const GamePage: FC = () =>
 {

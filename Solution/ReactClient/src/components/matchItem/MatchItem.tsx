@@ -1,4 +1,4 @@
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import axios from 'axios';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
@@ -6,8 +6,8 @@ import { useRecoilState } from 'recoil';
 import { MatchModel, MatchState } from "shared";
 import { userState } from 'state/accountState';
 import styles from "./MatchItem.module.css";
-import ArrowIcon from "@material-ui/icons/ArrowForward";
-import HourGlassIcon from "@material-ui/icons/HourglassFull";
+import ArrowIcon from "@mui/icons-material/ArrowForward";
+import HourGlassIcon from "@mui/icons-material/HourglassFull";
 import { useApiStatic } from 'hooks/useApiStatic';
 
 export interface MatchItemProps 

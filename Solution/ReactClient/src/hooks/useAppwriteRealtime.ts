@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppwrite } from "./useAppwrite";
+import { createAppwrite } from "utility/appwrite/createAppwrite";
 
 interface AppwriteRealtimePayload<T>
 {
@@ -11,7 +11,7 @@ interface AppwriteRealtimePayload<T>
 
 export const useAppwriteRealtime = <T>(channels: string | string[], callback: (payload: AppwriteRealtimePayload<T>) => void) =>
 {
-    const appwrite = useAppwrite();
+    const appwrite = createAppwrite();
 
     useEffect(() =>
     {

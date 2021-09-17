@@ -1,8 +1,8 @@
-import { Button, Card, CardContent, Divider, Typography } from '@material-ui/core';
+import { Button, Card, CardContent, Divider, Typography } from '@mui/material';
 import Board from 'components/board/Board';
 import { FC, Fragment } from 'react';
 import { GameModel, GameState, MatchModel } from 'shared';
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
 import styles from "./Game.module.css";
 import BoardSpace, { BoardSpaceState } from 'components/boardSpace/BoardSpace';

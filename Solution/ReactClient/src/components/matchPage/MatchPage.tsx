@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { MatchModel, databaseConstants } from 'shared';
 import MatchList from '../matchList/MatchList';
-import { Button, Card, CardContent, CardHeader, CircularProgress, Divider, IconButton } from '@material-ui/core';
+import { Button, Card, CardContent, CardHeader, CircularProgress, Divider, IconButton } from '@mui/material';
 import useSWR from 'swr'
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@mui/icons-material/Add';
 import { openMatchesFetcher } from 'utility/fetchers/openMatchesFetcher';
 import { activeMatchesFetcher } from 'utility/fetchers/activeMatchesFetcher';
 import { useAppwriteRealtime } from 'hooks/useAppwriteRealtime';

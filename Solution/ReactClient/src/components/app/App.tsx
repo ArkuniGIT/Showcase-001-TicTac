@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material';
 import { FC } from 'react';
 import { SWRConfig } from 'swr';
 import { BrowserRouter } from "react-router-dom";
@@ -9,7 +9,7 @@ import { createSwrConfig } from 'utility/configs/createSwrConfig';
 import { createTheme } from 'utility/configs/createTheme';
 import { changeAxios } from 'utility/configs/changeAxios';
 import { SnackbarProvider } from 'notistack';
-import { createAppwrite } from 'utility/appwrite/createAppwrite';
+import CssBaseline from '@mui/material/CssBaseline';
 
 changeAxios(axios);
 
@@ -19,17 +19,20 @@ const theme = createTheme();
 const App: FC = () =>
 {
     return (
-        <RecoilRoot>
-            <SWRConfig value={swrConfigValue}>
-                <ThemeProvider theme={theme}>
-                    <SnackbarProvider maxSnack={3}>
-                        <BrowserRouter>
-                            <Startup />
-                        </BrowserRouter>
-                    </SnackbarProvider>
-                </ThemeProvider>
-            </SWRConfig>
-        </RecoilRoot>
+        <>
+            <CssBaseline />
+            <RecoilRoot>
+                <SWRConfig value={swrConfigValue}>
+                    <ThemeProvider theme={theme}>
+                        <SnackbarProvider maxSnack={3}>
+                            <BrowserRouter>
+                                <Startup />
+                            </BrowserRouter>
+                        </SnackbarProvider>
+                    </ThemeProvider>
+                </SWRConfig>
+            </RecoilRoot>
+        </>
     );
 }
 

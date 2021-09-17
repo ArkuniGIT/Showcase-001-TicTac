@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { FC } from 'react';
 import styles from "./BoardSpace.module.css";
 import O from "images/O.png";
