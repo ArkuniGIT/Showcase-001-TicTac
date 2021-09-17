@@ -34,7 +34,7 @@ const MatchItem: FC<MatchItemProps> = (props) =>
                 <ListItemIcon>
                     <ArrowIcon />
                 </ListItemIcon>
-                <ListItemText primary={`Play game with ${model.users[0]}.`} />
+                <ListItemText primary={`Join game with player ${model.users[0]}.`} />
             </ListItem>
         );
     }

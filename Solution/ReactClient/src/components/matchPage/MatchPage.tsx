@@ -1,7 +1,8 @@
 import { FC, useEffect } from 'react';
 import { MatchModel, databaseConstants } from 'shared';
 import MatchList from '../matchList/MatchList';
-import { Button, Card, CardContent, CardHeader, CircularProgress, Divider, IconButton } from '@mui/material';
+import { Card, CardContent, CardHeader, CircularProgress, Divider, IconButton } from '@mui/material';
+import { LoadingButton } from "@mui/lab";
 import useSWR from 'swr'
 import AddIcon from '@mui/icons-material/Add';
 import { openMatchesFetcher } from 'utility/fetchers/openMatchesFetcher';
@@ -16,12 +17,7 @@ const MatchPage: FC = () =>
     const openMatchesReq = useSWR<MatchModel[]>('openMatches', openMatchesFetcher);
     const createMatchReq = useApiStatic(() =>
     {
-        return axios
-            .post("/match/create", null)
-            .then(() =>
-            {
-                openMatchesReq.mutate();
-            });
+        return axios.post("/match/create", null);
     });
 
     useAppwriteRealtime<MatchModel>(`collections.${databaseConstants.matchCollectionId}.documents`, (res) =>
@@ -73,9 +69,16 @@ const MatchPage: FC = () =>
                 }
                 <Divider />
                 <CardContent>
-                    <Button variant="contained" color="primary" onClick={createMatchReq.invoke} disabled={createMatchReq.loading}>
+                    <LoadingButton 
+                        variant="contained" 
+                        color="inherit" 
+                        loading={createMatchReq.loading} 
+                        loadingPosition="end"
+                        endIcon={<AddIcon />}
+                        onClick={createMatchReq.invoke} 
+                    >
                         Create new game
-                    </Button>
+                    </LoadingButton>
                 </CardContent>
             </Card>
         </>

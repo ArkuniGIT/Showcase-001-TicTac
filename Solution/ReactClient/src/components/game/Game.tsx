@@ -103,7 +103,7 @@ const Game: FC<GameProps> = (props) =>
             <Divider />
             <CardContent>
                 <Link to="/">
-                    <Button variant="contained" color="primary" startIcon={<ArrowBack />}>
+                    <Button variant="contained" color="inherit" startIcon={<ArrowBack />}>
                         Back to game list
                     </Button>
                 </Link>

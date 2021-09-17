@@ -9,12 +9,13 @@ interface AppwriteRealtimePayload<T>
     payload: T;
 };
 
+
 export const useAppwriteRealtime = <T>(channels: string | string[], callback: (payload: AppwriteRealtimePayload<T>) => void) =>
 {
-    const appwrite = createAppwrite();
-
     useEffect(() =>
     {
+        const appwrite = createAppwrite();
+        
         console.log("Subscribe to realtime.", channels);
         const unsubscribe = appwrite.subscribe(channels, callback);
 
