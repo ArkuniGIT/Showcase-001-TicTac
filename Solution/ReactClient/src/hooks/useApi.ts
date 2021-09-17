@@ -1,22 +1,18 @@
-import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 
-export const useApiPost = <T>(url: string, data: any, resolved?: (res: T) => void) =>
+export const useApi = <T>() =>
 {
     const snackbar = useSnackbar();
     const [loading, setLoading] = useState(false);
 
-    const invoke = async () =>
+    const start = async (work: () => Promise<T>) =>
     {
         setLoading(true);
 
         try 
         {
-            const res = await axios.post<T>(url, data);
-
-            if (resolved)
-                resolved(res.data);
+            const res = await work();
         }
         catch (error: any)
         {
@@ -31,7 +27,7 @@ export const useApiPost = <T>(url: string, data: any, resolved?: (res: T) => voi
     }
 
     return {
-        invoke,
+        start,
         loading,
     }
 }

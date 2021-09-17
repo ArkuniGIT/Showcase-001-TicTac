@@ -1,4 +1,4 @@
-import { Divider, ListItem } from '@material-ui/core';
+import { Divider, ListItem, ListItemText } from '@material-ui/core';
 import { List } from '@material-ui/core';
 import { FC, Fragment } from 'react';
 import { MatchModel } from "shared";
@@ -18,7 +18,7 @@ const MatchList: FC<MatchListProps> = (props) =>
         <List disablePadding>
             {matches.length === 0 &&
                 <ListItem>
-                    {props.emptyLabel}
+                    <ListItemText primary={props.emptyLabel} />
                 </ListItem>
             }
             {matches.map((match, i) => (

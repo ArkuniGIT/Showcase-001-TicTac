@@ -8,10 +8,21 @@ export class MatchService
 {
     constructor(
         private appwriteService: AppwriteService,
-        private accountService: AccountService,
+        private accountService: AccountService
     ) { }
 
-    async CreateNew(): Promise<MatchModel>
+    async Get(matchId: string): Promise<MatchModel>
+    {
+        const { database } = this.appwriteService;
+
+        const matchDocument = await database.getDocument<MatchModel>(databaseConstants.matchCollectionId, matchId);
+        if (!matchDocument)
+            throw new Error("Match does not exist.");
+
+        return matchDocument;
+    }
+
+    async Create(): Promise<MatchModel>
     {
         const { database } = this.appwriteService;
 
@@ -33,10 +44,7 @@ export class MatchService
         const { database } = this.appwriteService;
 
         const account = await this.accountService.getAccount();
-
-        const matchDocument = await database.getDocument<MatchModel>(databaseConstants.matchCollectionId, matchId);
-        if (!matchDocument)
-            throw new Error("Match does not exist.");
+        const matchDocument = await this.Get(matchId);
 
         const userAlreadyJoined = matchDocument.users.includes(account.$id);
         if (userAlreadyJoined)
@@ -59,14 +67,18 @@ export class MatchService
     {
         const { database } = this.appwriteService;
 
+        const activeUserIndex = Math.floor(Math.random() * 2);
+        const activeUserId = matchDocument.users[activeUserIndex];
+
         const game: GameModel = {
             matchId: matchDocument.$id,
             users: [...matchDocument.users],
             board: [-1, -1, -1, -1, -1, -1, -1, -1, -1],
             state: GameState.Playing,
-            activeUserIndex: Math.floor(Math.random() * 2),
+            activeUserId,
+            winnerUserId: undefined
         }
-        
+
         const readPermissions = game.users.map(x => `user:${x}`);
         const gameDocument = await database.createDocument<GameModel>(databaseConstants.gameCollectionId, game, readPermissions, []);
 

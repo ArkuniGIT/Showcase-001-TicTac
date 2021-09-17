@@ -8,7 +8,7 @@ import { userState } from 'state/accountState';
 import styles from "./MatchItem.module.css";
 import ArrowIcon from "@material-ui/icons/ArrowForward";
 import HourGlassIcon from "@material-ui/icons/HourglassFull";
-import { useApiPost } from 'hooks/useApiPost';
+import { useApiStatic } from 'hooks/useApiStatic';
 
 export interface MatchItemProps 
 {
@@ -21,7 +21,11 @@ const MatchItem: FC<MatchItemProps> = (props) =>
 
 
     const [user] = useRecoilState(userState);
-    const joinMatchReq = useApiPost("/match/join", { matchId: model.$id });
+    const joinMatchReq = useApiStatic(() =>
+    {
+        return axios
+            .post("/match/join", { matchId: model.$id });
+    });
 
     if (model.users.indexOf(user.$id) === -1)
     {
@@ -56,7 +60,13 @@ const MatchItem: FC<MatchItemProps> = (props) =>
                 <ListItemIcon>
                     <ArrowIcon />
                 </ListItemIcon>
-                <ListItemText primary={`Continue game with ${otherPlayer}.`} />
+                <ListItemText
+                    primary={
+                        model.state === MatchState.Active ? `Continue game with ${otherPlayer}.` :
+                        model.winnerUserId === user.$id ? "Check won game." :
+                        "Check lost game."
+                    }
+                />
             </ListItem>
         </Link>
     );

@@ -6,6 +6,6 @@ export const activeMatchesFetcher = async () =>
     const appwrite = createAppwrite();
 
     return appwrite.database
-        .listDocuments<any>(databaseConstants.matchCollectionId, [`state=${MatchState.Active}`], 100, 0)
+        .listDocuments<any>(databaseConstants.matchCollectionId, [`state!=${MatchState.Open}`], 100, 0)
         .then<MatchModel[]>((res) => res.documents);;
 }

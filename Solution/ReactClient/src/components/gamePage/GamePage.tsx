@@ -6,6 +6,8 @@ import { useAppwriteRealtime } from 'hooks/useAppwriteRealtime';
 import useSWR from 'swr';
 import { gameFetcher } from 'utility/fetchers/gameFetcher';
 import { CircularProgress } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import { stringify } from 'querystring';
 
 const GamePage: FC = () =>
 {
@@ -19,8 +21,13 @@ const GamePage: FC = () =>
 
     return (
         <>
-            {!matchReq.data &&
+            {!matchReq.data && !matchReq.error &&
                 <CircularProgress />
+            }
+            {matchReq.error &&
+                <Alert severity="error">
+                    An error happened.
+                </Alert>
             }
             {matchReq.data &&
                 <Game

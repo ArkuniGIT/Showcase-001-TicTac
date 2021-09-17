@@ -12,7 +12,7 @@ export class MatchController
     @Post("create")
     async create() : Promise<MatchModel>
     {
-        return this.matchService.CreateNew();
+        return this.matchService.Create();
     }
 
     @Post("join")

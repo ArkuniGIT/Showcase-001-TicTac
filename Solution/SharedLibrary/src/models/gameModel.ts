@@ -8,7 +8,10 @@ export interface GameModel
     
     users: string[];
     
-    activeUserIndex: number;
+    activeUserId: string;
+
+    winnerUserId?: string;
+
     state: GameState;
     board: number[];
 }

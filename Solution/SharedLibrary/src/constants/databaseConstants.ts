@@ -1,4 +1,4 @@
 export const databaseConstants = {
-    matchCollectionId: "61433439a9b07",
-    gameCollectionId: "61433439de3a0",
+    matchCollectionId: "61445f01e30f6",
+    gameCollectionId: "61445f0215def",
 }

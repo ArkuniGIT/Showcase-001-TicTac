@@ -7,7 +7,6 @@
         "sourceMap": true,
         "outDir": "bin",
         "declaration": true,
-        "baseUrl": "./src",
     },
     "files": ["index.ts"],
     "include": ["src/**/*"],

@@ -6,7 +6,7 @@
     height: 512px;
 }
 
-.board>div {
+.board > div {
     flex-grow: 0;
     width: 33.33%;
     height: 33.33%;
@@ -14,6 +14,6 @@
     background-color: #ccc;
 }
 
-.board>div:nth-child(2n) {
+.board > div:nth-child(2n) {
     background-color: #ddd;
 }

@@ -7,15 +7,21 @@ import AddIcon from '@material-ui/icons/Add';
 import { openMatchesFetcher } from 'utility/fetchers/openMatchesFetcher';
 import { activeMatchesFetcher } from 'utility/fetchers/activeMatchesFetcher';
 import { useAppwriteRealtime } from 'hooks/useAppwriteRealtime';
-import { useApiPost } from 'hooks/useApiPost';
+import { useApiStatic } from 'hooks/useApiStatic';
+import axios from 'axios';
 
 const MatchPage: FC = () =>
 {
     const activeMatchesReq = useSWR<MatchModel[]>('activeMatches', activeMatchesFetcher);
     const openMatchesReq = useSWR<MatchModel[]>('openMatches', openMatchesFetcher);
-    const createMatchReq = useApiPost("/match/create", null, () =>
+    const createMatchReq = useApiStatic(() =>
     {
-        openMatchesReq.mutate();
+        return axios
+            .post("/match/create", null)
+            .then(() =>
+            {
+                openMatchesReq.mutate();
+            });
     });
 
     useAppwriteRealtime<MatchModel>(`collections.${databaseConstants.matchCollectionId}.documents`, (res) =>

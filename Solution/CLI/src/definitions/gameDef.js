@@ -16,11 +16,19 @@ const gameDef = [
         "array": true
     },
     {
-        "label": "ActiveUserIndex",
-        "key": "activeUserIndex",
-        "type": "numeric",
+        "label": "ActiveUserId",
+        "key": "activeUserId",
+        "type": "text",
         "default": null,
         "required": true,
+        "array": false
+    },
+    {
+        "label": "WinnerUserId",
+        "key": "winnerUserId",
+        "type": "text",
+        "default": null,
+        "required": false,
         "array": false
     },
     {

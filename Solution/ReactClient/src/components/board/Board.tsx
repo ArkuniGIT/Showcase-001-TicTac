@@ -1,28 +1,18 @@
+import BoardSpace from 'components/boardSpace/BoardSpace';
 import { FC } from 'react';
 import styles from "./Board.module.css";
 
 export interface BoardProps 
 {
-
 }
 
-const MatchList: FC<BoardProps> = (props) =>
+const Board: FC<BoardProps> = (props) =>
 {
     return (
         <div className={styles.board}>
-            <div />
-            <div />
-            <div />
-            
-            <div />
-            <div />
-            <div />
-            
-            <div />
-            <div />
-            <div />
+                {props.children}
         </div>
     );
 }
 
-export default MatchList;
+export default Board;

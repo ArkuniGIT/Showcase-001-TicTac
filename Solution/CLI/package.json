@@ -5,8 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "setup": "node -r dotenv/config ./src/scripts/setup",
-    "empty": "node -r dotenv/config ./src/scripts/empty"
+    "create": "node -r dotenv/config ./src/scripts/create",
+    "update": "node -r dotenv/config ./src/scripts/update",
+    "clean": "node -r dotenv/config ./src/scripts/clean"
   },
   "author": "",
   "license": "ISC",
