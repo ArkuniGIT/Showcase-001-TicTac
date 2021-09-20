@@ -13,21 +13,27 @@ Create a "Tic-Tac-Toe" project in Appwrite
 Create and fill out an .env file for the CLI, NodeAPI and ReactClient projects.
 Go to CLI and use theese commands...
 
+```bash
 $ npm install
 $ npm run setup
 $ npm run create
 $ npm run update
+```
 
 Go to the ReactClient project and run...
 
+```bash
 $ npm install
 $ npm run start
+```
 
 Go to NodeAPI and run...
 
+```bash
 $ npm install
 $ npm run start:dev
 Go to localhost:3000
+```
 
 ## Thoughts
 
