@@ -1,11 +1,13 @@
-import { MatchModel, MatchState, databaseConstants } from "shared";
+import { getEnv } from "constants/getEnv";
+import { MatchModel, MatchState } from "shared";
 import { createAppwrite } from "utility/appwrite/createAppwrite"
 
 export const activeMatchesFetcher = async () =>
 {
     const appwrite = createAppwrite();
+    const env = getEnv();
 
     return appwrite.database
-        .listDocuments<any>(databaseConstants.matchCollectionId, [`state!=${MatchState.Open}`], 100, 0)
+        .listDocuments<any>(env.databaseMatchCollectionId, [`state!=${MatchState.Open}`], 100, 0)
         .then<MatchModel[]>((res) => res.documents);;
 }

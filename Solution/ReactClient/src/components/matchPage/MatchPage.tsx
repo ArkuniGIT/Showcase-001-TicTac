@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { MatchModel, databaseConstants } from 'shared';
+import { MatchModel } from 'shared';
 import MatchList from '../matchList/MatchList';
 import { Card, CardContent, CardHeader, CircularProgress, Divider, IconButton } from '@mui/material';
 import { LoadingButton } from "@mui/lab";
@@ -10,6 +10,7 @@ import { activeMatchesFetcher } from 'utility/fetchers/activeMatchesFetcher';
 import { useAppwriteRealtime } from 'hooks/useAppwriteRealtime';
 import { useApiStatic } from 'hooks/useApiStatic';
 import axios from 'axios';
+import { getEnv } from 'constants/getEnv';
 
 const MatchPage: FC = () =>
 {
@@ -20,7 +21,8 @@ const MatchPage: FC = () =>
         return axios.post("/match/create", null);
     });
 
-    useAppwriteRealtime<MatchModel>(`collections.${databaseConstants.matchCollectionId}.documents`, (res) =>
+    const env = getEnv();
+    useAppwriteRealtime<MatchModel>(`collections.${env.databaseMatchCollectionId}.documents`, (res) =>
     {
         activeMatchesReq.mutate();
         openMatchesReq.mutate();

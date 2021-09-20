@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { match } from 'assert';
+import { getEnv } from 'utility/env/env';
 import { AccountService } from 'modules/account/account.service';
 import { AppwriteService } from 'modules/appwrite/appwrite.service';
-import { databaseConstants, GameModel, GameState, MatchModel, MatchState } from "shared";
+import { GameModel, GameState, MatchModel, MatchState } from "shared";
 import { takeTurn } from "shared/src/actions/game/takeTurn";
 import { PointModel } from 'shared/src/models/pointModel';
 
@@ -17,8 +17,9 @@ export class GameService
     async Get(gameId: string): Promise<GameModel>
     {
         const { database } = this.appwriteService;
+        const env = getEnv();
 
-        const gameDocument = await database.getDocument<GameModel>(databaseConstants.gameCollectionId, gameId);
+        const gameDocument = await database.getDocument<GameModel>(env.databaseGameCollectionId, gameId);
         if (!gameDocument)
             throw new Error("Game does not exist.");
 
@@ -28,21 +29,22 @@ export class GameService
     async TakeTurn(gameId: string, point: PointModel): Promise<GameModel>
     {
         const { database } = this.appwriteService;
+        const env = getEnv();
 
         const gameDocument = await this.Get(gameId);
         const account = await this.accountService.getAccount();
 
         takeTurn(gameDocument, account.$id, point);
 
-        this.appwriteService.database.updateDocument(databaseConstants.gameCollectionId, gameDocument.$id, gameDocument);
+        this.appwriteService.database.updateDocument(env.databaseGameCollectionId, gameDocument.$id, gameDocument);
 
         if (gameDocument.state === GameState.GameOver)
         {
-            const matchDocument = await database.getDocument<MatchModel>(databaseConstants.matchCollectionId, gameDocument.matchId);
+            const matchDocument = await database.getDocument<MatchModel>(env.databaseMatchCollectionId, gameDocument.matchId);
             matchDocument.winnerUserId = gameDocument.winnerUserId;
             matchDocument.state = MatchState.Closed;
 
-            await database.updateDocument(databaseConstants.matchCollectionId, matchDocument.$id, matchDocument);
+            await database.updateDocument(env.databaseMatchCollectionId, matchDocument.$id, matchDocument);
         }
 
         return gameDocument;

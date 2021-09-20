@@ -2,7 +2,7 @@ import matchDef from "../definitions/matchDef.js";
 import gameDef from "../definitions/gameDef.js";
 import createAppwriteClient from "../utility/createAppwriteClient.js";
 import sdk from 'node-appwrite';
-import { databaseConstants } from "shared";
+import { env } from "../constants/env.js";
 
 var run = async () =>
 {
@@ -12,8 +12,8 @@ var run = async () =>
     try
     {
         // Updating collections
-        await database.updateCollection(databaseConstants.matchCollectionId, "matches", ['*'], [], matchDef);
-        await database.updateCollection(databaseConstants.gameCollectionId, "games", ['*'], [], gameDef);
+        await database.updateCollection(env.databaseMatchCollectionId, "matches", ['*'], [], matchDef);
+        await database.updateCollection(env.databaseGameCollectionId, "games", ['*'], [], gameDef);
         
     }
     catch (err)

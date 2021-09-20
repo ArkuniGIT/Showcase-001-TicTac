@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { getEnv } from 'utility/env/env';
 import { AccountService } from 'modules/account/account.service';
 import { AppwriteService } from 'modules/appwrite/appwrite.service';
-import { databaseConstants, GameModel, GameState, MatchModel, MatchState, UserModel } from "shared";
+import { GameModel, GameState, MatchModel, MatchState, UserModel } from "shared";
 
 @Injectable()
 export class MatchService
@@ -14,8 +15,9 @@ export class MatchService
     async Get(matchId: string): Promise<MatchModel>
     {
         const { database } = this.appwriteService;
+        const env = getEnv();
 
-        const matchDocument = await database.getDocument<MatchModel>(databaseConstants.matchCollectionId, matchId);
+        const matchDocument = await database.getDocument<MatchModel>(env.databaseMatchCollectionId, matchId);
         if (!matchDocument)
             throw new Error("Match does not exist.");
 
@@ -25,6 +27,7 @@ export class MatchService
     async Create(): Promise<MatchModel>
     {
         const { database } = this.appwriteService;
+        const env = getEnv();
 
         const account = await this.accountService.getAccount();
 
@@ -34,7 +37,7 @@ export class MatchService
             users: [account.$id],
             state: MatchState.Open,
         };
-        const matchDocument = await database.createDocument(databaseConstants.matchCollectionId, match, ['*'], []);
+        const matchDocument = await database.createDocument(env.databaseMatchCollectionId, match, ['*'], []);
 
         return matchDocument as any;
     }
@@ -42,6 +45,7 @@ export class MatchService
     async Join(matchId: string): Promise<MatchModel | null>
     {
         const { database } = this.appwriteService;
+        const env = getEnv();
 
         const account = await this.accountService.getAccount();
         const matchDocument = await this.Get(matchId);
@@ -58,7 +62,7 @@ export class MatchService
         matchDocument.state = MatchState.Active;
 
         const readPermissions = matchDocument.users.map(x => `user:${x}`);
-        database.updateDocument(databaseConstants.matchCollectionId, matchDocument.$id, matchDocument, readPermissions, []);
+        database.updateDocument(env.databaseMatchCollectionId, matchDocument.$id, matchDocument, readPermissions, []);
 
         return matchDocument;
     }
@@ -66,6 +70,7 @@ export class MatchService
     async CreateGame(account: UserModel, matchDocument: MatchModel): Promise<GameModel>
     {
         const { database } = this.appwriteService;
+        const env = getEnv();
 
         const activeUserIndex = Math.floor(Math.random() * 2);
         const activeUserId = matchDocument.users[activeUserIndex];
@@ -80,7 +85,7 @@ export class MatchService
         }
 
         const readPermissions = game.users.map(x => `user:${x}`);
-        const gameDocument = await database.createDocument<GameModel>(databaseConstants.gameCollectionId, game, readPermissions, []);
+        const gameDocument = await database.createDocument<GameModel>(env.databaseGameCollectionId, game, readPermissions, []);
 
         return gameDocument;
     }
