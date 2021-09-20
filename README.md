@@ -6,23 +6,28 @@ This is an example of how I would implement Tic-Tac-Toe using React.js as front-
 
 ## How to run
 
-* Go to SharedLibrary and run...
+Go to SharedLibrary and run...
 $ npm run build
-* Install Appwrite
-* Create a "Tic-Tac-Toe" project in Appwrite
-* Create and fill out an .env file for the CLI, NodeAPI and ReactClient projects.
-* Go to CLI and use theese commands...
+Install Appwrite
+Create a "Tic-Tac-Toe" project in Appwrite
+Create and fill out an .env file for the CLI, NodeAPI and ReactClient projects.
+Go to CLI and use theese commands...
+
 $ npm install
 $ npm run setup
 $ npm run create
 $ npm run update
-* Go to the ReactClient project and run...
+
+Go to the ReactClient project and run...
+
 $ npm install
 $ npm run start
-* Go to NodeAPI and run...
+
+Go to NodeAPI and run...
+
 $ npm install
 $ npm run start:dev
-* Go to localhost:3000
+Go to localhost:3000
 
 ## Thoughts
 
