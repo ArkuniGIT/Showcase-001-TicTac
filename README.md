@@ -44,9 +44,22 @@ Go to NodeAPI folder and run...
 ```bash
 $ npm install
 $ npm run start:dev
-Go to localhost:3000
 ```
+
+Client is now running on localhost:3000
+
+## Todo
+
+* Simplify the process of running the app from blank.
+
+* Wait for Appwrite to fix the websockets disconnect bug.
+
+* Wait for Appwrite to add database transactions.
+
+* Wait for Appwrite to add database collection name alias.
 
 ## Thoughts
 
-* Appwrite was used as a part of the backend. It lacks some pretty important features like database transactions and functionality to setup a new project without manual work. But I wanted to try it out as an alternative to Firebase. I will fix this as Appwrite is updated.
+* Appwrite was used as a part of the backend for experimental purposes as an alternative to Firebase. It lacks some pretty important features like database transactions to make it production-ready.
+
+* There is a bug with 
