@@ -60,6 +60,7 @@ export class MatchService
 
         matchDocument.gameId = gameDocument.$id;
         matchDocument.state = MatchState.Active;
+        matchDocument.activeUserId = gameDocument.activeUserId;
 
         const readPermissions = matchDocument.users.map(x => `user:${x}`);
         database.updateDocument(env.databaseMatchCollectionId, matchDocument.$id, matchDocument, readPermissions, []);

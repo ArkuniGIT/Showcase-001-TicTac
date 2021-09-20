@@ -3,7 +3,8 @@ import { MatchModel } from 'shared';
 import MatchList from '../matchList/MatchList';
 import { Card, CardContent, CardHeader, CircularProgress, Divider, IconButton } from '@mui/material';
 import { LoadingButton } from "@mui/lab";
-import useSWR from 'swr'
+import useSWR from 'swr';
+import useSWRImmutable from 'swr/immutable';
 import AddIcon from '@mui/icons-material/Add';
 import { openMatchesFetcher } from 'utility/fetchers/openMatchesFetcher';
 import { activeMatchesFetcher } from 'utility/fetchers/activeMatchesFetcher';
@@ -14,8 +15,8 @@ import { getEnv } from 'constants/getEnv';
 
 const MatchPage: FC = () =>
 {
-    const activeMatchesReq = useSWR<MatchModel[]>('activeMatches', activeMatchesFetcher);
-    const openMatchesReq = useSWR<MatchModel[]>('openMatches', openMatchesFetcher);
+    const activeMatchesReq = useSWRImmutable<MatchModel[]>('activeMatches', activeMatchesFetcher);
+    const openMatchesReq = useSWRImmutable<MatchModel[]>('openMatches', openMatchesFetcher);
     const createMatchReq = useApiStatic(() =>
     {
         return axios.post("/match/create", null);

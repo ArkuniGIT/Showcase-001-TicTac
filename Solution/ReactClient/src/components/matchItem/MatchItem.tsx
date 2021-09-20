@@ -62,7 +62,8 @@ const MatchItem: FC<MatchItemProps> = (props) =>
                 </ListItemIcon>
                 <ListItemText
                     primary={
-                        model.state === MatchState.Active ? `Continue game with ${otherPlayer}.` :
+                        model.state === MatchState.Active && model.activeUserId === user.$id ? `Your turn against ${otherPlayer}!` :
+                        model.state === MatchState.Active && model.activeUserId !== user.$id ? `Waiting for ${otherPlayer}.` :
                         model.winnerUserId === user.$id ? "Check won game." :
                         "Check lost game."
                     }

@@ -6,6 +6,7 @@ export interface MatchModel
 
     gameId?: string;
     
+    activeUserId?: string;
     winnerUserId?: string;
     
     users: string[];

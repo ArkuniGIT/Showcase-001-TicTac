@@ -5,6 +5,7 @@ import { AppwriteService } from 'modules/appwrite/appwrite.service';
 import { GameModel, GameState, MatchModel, MatchState } from "shared";
 import { takeTurn } from "shared/src/actions/game/takeTurn";
 import { PointModel } from 'shared/src/models/pointModel';
+import { match } from 'assert';
 
 @Injectable()
 export class GameService
@@ -38,14 +39,19 @@ export class GameService
 
         this.appwriteService.database.updateDocument(env.databaseGameCollectionId, gameDocument.$id, gameDocument);
 
+        const matchDocument = await database.getDocument<MatchModel>(env.databaseMatchCollectionId, gameDocument.matchId);
+
         if (gameDocument.state === GameState.GameOver)
         {
-            const matchDocument = await database.getDocument<MatchModel>(env.databaseMatchCollectionId, gameDocument.matchId);
             matchDocument.winnerUserId = gameDocument.winnerUserId;
             matchDocument.state = MatchState.Closed;
-
-            await database.updateDocument(env.databaseMatchCollectionId, matchDocument.$id, matchDocument);
         }
+        else
+        {
+            matchDocument.activeUserId = gameDocument.activeUserId;
+        }
+
+        await database.updateDocument(env.databaseMatchCollectionId, matchDocument.$id, matchDocument);
 
         return gameDocument;
     }

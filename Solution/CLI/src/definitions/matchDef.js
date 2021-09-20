@@ -16,6 +16,14 @@ const matchDef = [
         "array": true
     },
     {
+        "label": "ActiveUserId",
+        "key": "activeUserId",
+        "type": "text",
+        "default": null,
+        "required": false,
+        "array": false
+    },
+    {
         "label": "WinnerUserId",
         "key": "winnerUserId",
         "type": "text",

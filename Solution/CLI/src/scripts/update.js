@@ -2,12 +2,13 @@ import matchDef from "../definitions/matchDef.js";
 import gameDef from "../definitions/gameDef.js";
 import createAppwriteClient from "../utility/createAppwriteClient.js";
 import sdk from 'node-appwrite';
-import { env } from "../constants/env.js";
+import { getEnv } from "../utility/getEnv.js";
 
 var run = async () =>
 {
     var client = createAppwriteClient();
     var database = new sdk.Database(client);
+    var env = getEnv();
 
     try
     {
