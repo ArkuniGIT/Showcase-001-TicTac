@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { getEnv } from 'utility/env/env';
+import { getEnv } from 'utility/env/getEnv';
 import { AccountService } from 'modules/account/account.service';
 import { AppwriteService } from 'modules/appwrite/appwrite.service';
 import { GameModel, GameState, MatchModel, MatchState } from "shared";
