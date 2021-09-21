@@ -1,16 +1,14 @@
 import { useEffect } from "react";
 import { createAppwrite } from "utility/appwrite/createAppwrite";
 
-interface AppwriteRealtimePayload<T>
-{
+declare type RealtimeResponseEvent<T> = {
     event: string;
     channels: string[];
     timestamp: number;
     payload: T;
 };
 
-
-export const useAppwriteRealtime = <T>(channels: string | string[], callback: (payload: AppwriteRealtimePayload<T>) => void) =>
+export const useAppwriteRealtime = <T>(channels: string | string[], callback: (payload: RealtimeResponseEvent<T>) => void) =>
 {
     useEffect(() =>
     {

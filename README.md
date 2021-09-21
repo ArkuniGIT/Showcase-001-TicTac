@@ -52,8 +52,6 @@ Client is now running on localhost:3000
 
 * Simplify the process of running the app from blank.
 
-* Wait for Appwrite to fix the websockets disconnect bug.
-
 * Wait for Appwrite to add database transactions.
 
 * Wait for Appwrite to add database collection name alias.
